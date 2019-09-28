@@ -1,13 +1,13 @@
 #Docker Image for building
-FROM alpine:3.7 as builder
+FROM alpine:3.10.2 as builder
 COPY build.sh /root
 RUN cd root &&\
     chmod 755 build.sh &&\
     ./build.sh
-    
 
-#Actual image to be created    
-FROM alpine:3.7     
+
+#Actual image to be created
+FROM alpine:3.10.2
 COPY --from=builder /usr/local/nginx /usr/local/nginx
 RUN touch /usr/local/nginx/logs/access.log &&\
     touch /usr/local/nginx/logs/error.log &&\
@@ -16,11 +16,12 @@ RUN touch /usr/local/nginx/logs/access.log &&\
     addgroup -g 8000 nginx &&\
     adduser -G nginx -u 8000 -D  -s /sbin/nologin nginx &&\
     mkdir /usr/local/nginx/tmp &&\
-    chmod 1777 /usr/local/nginx/tmp 
-        
-USER nginx    
+    chmod 1777 /usr/local/nginx/tmp
+
+USER nginx
 EXPOSE 8000/tcp
 
 STOPSIGNAL SIGTERM
 
 CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+
