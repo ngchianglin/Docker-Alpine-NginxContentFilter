@@ -43,6 +43,13 @@ tar -zxvf pcre-8.43.tar.gz
 tar -zxvf zlib-1.2.11.tar.gz
 tar -zxvf openssl-1.1.1d.tar.gz
 
+
+#
+# Take note that alpine linux uses musl as the c library  
+# instead of glibc. musl at the moment doesn't
+# support _FORTIFY_SOURCE and this option have no 
+# effect 
+#
 cd nginx-1.16.1
 ./configure --with-cc-opt="-Wextra -Wformat -Wformat-security -Wformat-y2k -Werror=format-security -fPIE -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all" --with-ld-opt="-pie -Wl,-z,relro -Wl,-z,now -Wl,--strip-all" --with-http_v2_module --with-http_ssl_module --without-http_uwsgi_module --without-http_fastcgi_module   --without-http_scgi_module --without-http_empty_gif_module --with-openssl=../openssl-1.1.1d --with-openssl-opt="no-ssl2 no-ssl3 no-comp no-weak-ssl-ciphers -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-zlib=../zlib-1.2.11 --with-zlib-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre=../pcre-8.43 --with-pcre-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre-jit --add-module=../NginxContentFilter
 make
