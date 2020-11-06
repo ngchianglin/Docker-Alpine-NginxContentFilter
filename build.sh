@@ -6,13 +6,13 @@ cd build
 wget https://nginx.org/download/nginx-1.18.0.tar.gz
 wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 wget https://www.zlib.net/zlib-1.2.11.tar.gz
-wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
+wget https://www.openssl.org/source/openssl-1.1.1h.tar.gz
 git clone https://github.com/ngchianglin/NginxContentFilter.git
 
 nginx_sha256="4c373e7ab5bf91d34a4f11a0c9496561061ba5eee6020db272a17a7228d35f99"
 pcre_sha256="aecafd4af3bd0f3935721af77b889d9024b2e01d96b58471bd91a3063fb47728"
 zlib_sha256="c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1"
-openssl_sha256="ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
+openssl_sha256="5c9ca8774bd7b03e5784f26ae9e9e6d749c9da2438545077e6b3d755a06595d9"
 content_filter_config="d20e9df127e9e3c87e175b7a2191021a9a3ffc0d94aff5e1dfbdbbaaea033074"
 content_filter_module="9779f91da58bcaed9f5697103f14201c9f65746ffeeefb29cf2e34aff7420ef3"
 
@@ -34,14 +34,14 @@ cksum()
 cksum $nginx_sha256 "nginx-1.18.0.tar.gz"
 cksum $pcre_sha256 "pcre-8.44.tar.gz"
 cksum $zlib_sha256 "zlib-1.2.11.tar.gz"
-cksum $openssl_sha256 "openssl-1.1.1g.tar.gz"
+cksum $openssl_sha256 "openssl-1.1.1h.tar.gz"
 cksum $content_filter_config "NginxContentFilter/config"
 cksum $content_filter_module "NginxContentFilter/ngx_http_ct_filter_module.c"
 
 tar -zxvf nginx-1.18.0.tar.gz
 tar -zxvf pcre-8.44.tar.gz
 tar -zxvf zlib-1.2.11.tar.gz
-tar -zxvf openssl-1.1.1g.tar.gz
+tar -zxvf openssl-1.1.1h.tar.gz
 
 
 #
@@ -51,7 +51,7 @@ tar -zxvf openssl-1.1.1g.tar.gz
 # effect 
 #
 cd nginx-1.18.0
-./configure --with-cc-opt="-Wextra -Wformat -Wformat-security -Wformat-y2k -Werror=format-security -fPIE -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all" --with-ld-opt="-pie -Wl,-z,relro -Wl,-z,now -Wl,--strip-all" --with-http_v2_module --with-http_ssl_module --without-http_uwsgi_module --without-http_fastcgi_module   --without-http_scgi_module --without-http_empty_gif_module --with-openssl=../openssl-1.1.1g --with-openssl-opt="no-ssl2 no-ssl3 no-comp no-weak-ssl-ciphers -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-zlib=../zlib-1.2.11 --with-zlib-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre=../pcre-8.44 --with-pcre-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre-jit --add-module=../NginxContentFilter
+./configure --with-cc-opt="-Wextra -Wformat -Wformat-security -Wformat-y2k -Werror=format-security -fPIE -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all" --with-ld-opt="-pie -Wl,-z,relro -Wl,-z,now -Wl,--strip-all" --with-http_v2_module --with-http_ssl_module --without-http_uwsgi_module --without-http_fastcgi_module   --without-http_scgi_module --without-http_empty_gif_module --with-openssl=../openssl-1.1.1h --with-openssl-opt="no-ssl2 no-ssl3 no-comp no-weak-ssl-ciphers -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-zlib=../zlib-1.2.11 --with-zlib-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre=../pcre-8.44 --with-pcre-opt="-O2 -D_FORTIFY_SOURCE=2 -fstack-protector-all -fPIC" --with-pcre-jit --add-module=../NginxContentFilter
 make
 make install
 cat << EOF > /usr/local/nginx/conf/nginx.conf

@@ -1,5 +1,5 @@
 #Docker Image for building
-FROM alpine:3.12.0 as builder
+FROM alpine:3.12.1 as builder
 COPY build.sh /root
 RUN cd root &&\
     chmod 755 build.sh &&\
@@ -7,7 +7,7 @@ RUN cd root &&\
 
 
 #Actual image to be created
-FROM alpine:3.12.0
+FROM alpine:3.12.1
 COPY --from=builder /usr/local/nginx /usr/local/nginx
 RUN touch /usr/local/nginx/logs/access.log &&\
     touch /usr/local/nginx/logs/error.log &&\
